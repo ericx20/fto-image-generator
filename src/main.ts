@@ -1,26 +1,9 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
 import { FULL, LS } from "./masks";
-import { Alg } from "cubing/alg";
-import { KPuzzle } from "cubing/kpuzzle";
-import { getPuzzleGeometryByName } from "cubing/puzzle-geometry";
 import { downloadScreenshot, isAlgValid } from "./utils";
 
-// TODO: dropdown for masks
-// TODO: dropdown for angles: front, top, or custom
-// TODO: batch functionality?
-// todo: alg validation. for some reason the TwistyAlgEditor one supposed to have it but doesn't work
-
 type MaskOption = "full" | "ls";
-
-// const pg = getPuzzleGeometryByName("FTO", {
-//   allMoves: true, // what does this option do?
-//   addRotations: true,
-//   outerBlockMoves: true,
-//   vertexMoves: true,
-//   fixedOrientation: false,
-// });
-// const kpuzzle = new KPuzzle(pg.getKPuzzleDefinition(true));
 
 class App {
   mainPlayer: TwistyPlayer = document.querySelector("#main-player")!;
@@ -30,7 +13,9 @@ class App {
     "#batch-alg-input"
   ) as HTMLTextAreaElement;
   downloadButton = document.querySelector("#download") as HTMLButtonElement;
-  resetCameraButton = document.querySelector("#reset-camera") as HTMLButtonElement;
+  resetCameraButton = document.querySelector(
+    "#reset-camera"
+  ) as HTMLButtonElement;
 
   batchDownloadButton = document.querySelector(
     "#batch-download"
@@ -61,8 +46,10 @@ class App {
 
     this.resetCameraButton.addEventListener("click", async () => {
       // In the future with more masks, the default coordinates may be different
-      this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set({ latitude: 30, longitude: 0});
-    })
+      this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
+        { latitude: 30, longitude: 0 }
+      );
+    });
 
     this.algInput.addEventListener("input", async (e) => {
       const inputAlg = (e.target as HTMLInputElement).value;
