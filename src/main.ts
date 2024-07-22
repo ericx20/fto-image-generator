@@ -1,12 +1,23 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
-import { FULL, LS } from "./masks";
+import { FULL, LAST_CENTER, LAST_LAYER, LAST_SLOT } from "./masks";
 import { downloadScreenshot, isAlgValid } from "./utils";
 
-type MaskOption = "full" | "ls";
+// TODO: put options in URL to make bookmarking possible
+// TODO: very simple editor that shows numbers all over the cube and you enter indices of pieces to show/hide
+
+const MASKS = {
+  full: FULL,
+  ls: LAST_SLOT,
+  lc: LAST_CENTER,
+  ll: LAST_LAYER,
+}
+
+type MaskOption = keyof typeof MASKS;
 
 class App {
   mainPlayer: TwistyPlayer = document.querySelector("#main-player")!;
+  // batchPlayer is never shown in the UI, it exists purely to generate images for batch generator
   batchPlayer: TwistyPlayer;
   algInput = document.querySelector("#alg-input") as HTMLInputElement;
   batchAlgInput = document.querySelector(
@@ -56,11 +67,7 @@ class App {
       this.mainPlayer.alg = inputAlg;
       const { issues } =
         await this.mainPlayer.experimentalModel.puzzleAlg.get();
-      if (issues.errors.length) {
-        this.downloadButton.disabled = true;
-      } else {
-        this.downloadButton.disabled = false;
-      }
+      this.downloadButton.disabled = issues.errors.length > 0;
     });
 
     this.batchAlgInput.addEventListener("input", async (e) => {
@@ -107,16 +114,13 @@ class App {
 
   handleMaskSelect(option: MaskOption) {
     // TODO: depending on the mask maybe we should change the default camera angle as well
-    switch (option) {
-      case "full":
-        this.mainPlayer.experimentalStickeringMaskOrbits = FULL as any;
-        this.batchPlayer.experimentalStickeringMaskOrbits = FULL as any;
-        break;
-      case "ls":
-        this.mainPlayer.experimentalStickeringMaskOrbits = LS as any;
-        this.batchPlayer.experimentalStickeringMaskOrbits = LS as any;
-        break;
+    const mask = MASKS[option] as any;
+    if (!mask) {
+      console.warn("Could not find mask corresponding to option", option)
+      return;
     }
+    this.mainPlayer.experimentalStickeringMaskOrbits = mask;
+    this.batchPlayer.experimentalStickeringMaskOrbits = mask;
   }
 }
 

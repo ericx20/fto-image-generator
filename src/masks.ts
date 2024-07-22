@@ -1,4 +1,6 @@
-export const LS = {
+export const FULL = "C4RNER:------,CENTERS:------------------------,EDGES:------------";
+
+export const LAST_SLOT = {
   orbits: {
     C4RNER: {
       pieces: [
@@ -6,65 +8,32 @@ export const LS = {
           facelets: ["ignored", "ignored", "ignored", "ignored"],
         },
         {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["ignored", "ignored", "ignored", "ignored"],
-        },
-        {
-          facelets: ["ignored", "ignored", "ignored", "ignored"],
+          facelets: ["dim", "dim", "dim", "dim"],
         },
         {
           facelets: ["ignored", "ignored", "ignored", "ignored"],
         },
         {
           facelets: ["regular", "regular", "regular", "regular"],
+        },
+        {
+          facelets: ["ignored", "ignored", "ignored", "ignored"],
+        },
+        {
+          facelets: ["dim", "dim", "dim", "dim"],
         },
       ],
     },
     CENTERS: {
       pieces: [
         {
-          facelets: ["regular"],
+          facelets: ["dim"],
         },
         {
           facelets: ["ignored"],
         },
         {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
+          facelets: ["dim"],
         },
         {
           facelets: ["ignored"],
@@ -73,213 +42,111 @@ export const LS = {
           facelets: ["ignored"],
         },
         {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
           facelets: ["ignored"],
         },
         {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
+          facelets: ["ignored"],
         },
         {
           facelets: ["ignored"],
         },
         {
-          facelets: ["regular"],
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
         },
         {
           facelets: ["regular"],
         },
         {
-          facelets: ["ignored"],
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
         },
         {
           facelets: ["regular"],
+        },
+        {
+          facelets: ["dim"],
         },
       ],
     },
     EDGES: {
       pieces: [
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["ignored", "regular"],
+          facelets: ["ignored", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["ignored", "regular"],
+          facelets: ["ignored", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["ignored", "regular"],
+          facelets: ["ignored", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
         {
-          facelets: ["regular", "regular"],
+          facelets: ["dim", "dim"],
         },
       ],
     },
   },
 };
 
-export const FULL = {
-  orbits: {
-    C4RNER: {
-      pieces: [
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-      ],
-    },
-    CENTERS: {
-      pieces: [
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["regular"],
-        },
-      ],
-    },
-    EDGES: {
-      pieces: [
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-        {
-          facelets: ["regular", "regular"],
-        },
-      ],
-    },
-  },
-};
+// export const LAST_CENTER = "C4RNER:IDIDID,CENTERS:D-D--D-D-DDDDD----DDDDDD,EDGES:D-D-D-DDDDDD";
+
+export const LAST_CENTER = "C4RNER:IIIIII,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
+// centers dont dim: 7 9 18 15 2 4 17 5 16 = 2 4 5 7 9 15 16 17 18
+
+// edges dont dim: 2 4 6                         
+export const LAST_LAYER = "C4RNER:-I-I-I,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";

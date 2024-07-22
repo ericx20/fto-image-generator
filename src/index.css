@@ -95,7 +95,7 @@ input[type="checkbox"] {
   cursor: pointer;
   width: 1rem;
   height: 1rem;
-  background-color: var(--blue);
+  accent-color: var(--blue);
 }
 
 #alg-input {
