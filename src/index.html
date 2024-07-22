@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <title>FTO CIF Image Generator</title>
+    <link rel="stylesheet" href="./index.css" />
+    <script src="./main.js" type="module"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <section class="stack">
+        <h1>Generate FTO images (CIF)</h1>
+        <input id="alg-input" type="text" placeholder="Type alg here" />
+        <twisty-player
+          id="main-player"
+          puzzle="fto"
+          control-panel="none"
+          experimental-setup-alg="LFDv Fv"
+          experimental-setup-anchor="end"
+          camera-latitude-limit="180"
+          experimental-drag-input="none"
+        ></twisty-player>
+        <button id="download">Download image</button>
+      </section>
+
+      <section class="stack">
+        <h2>Batch generator</h2>
+        <textarea
+          id="batch-alg-input"
+          placeholder="Enter each alg on a separate line"
+        ></textarea>
+        <button id="batch-download" disabled="true">Download images</button>
+      </section>
+
+      <section class="stack">
+        <h2>Settings</h2>
+        <div>
+          <label for="select-mask">Choose stickering:</label>
+          <select name="select-mask" id="select-mask">
+            <option value="full">Full</option>
+            <option value="ls">Last Slot</option>
+          </select>
+        </div>
+        <div>
+          <input type="checkbox" name="enable-camera-move" id="enable-camera-move">
+          <label for="enable-camera-move">Drag cube to adjust camera angle</label>
+        </div>
+        <button id="reset-camera">Reset camera angle</button>
+        <p>🚧Work in progress, need to add more stickerings</p>
+      </section>
+      <hr class="divider">
+      <p class="credits">Made by err0rcuber. Powered by cubing.js</p>
+    </div>
+  </body>
+</html>
