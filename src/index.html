@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FTO CIF Image Generator</title>
+    <title>Cube Image Generator</title>
     <link rel="stylesheet" href="./index.css" />
     <script src="./main.js" type="module"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,54 +16,102 @@
 
   <body>
     <div class="container">
-      <section class="stack">
-        <h1>Generate FTO images (CIF)</h1>
-        <input id="alg-input" type="text" placeholder="Type alg here" />
-        <twisty-player
-          id="main-player"
-          puzzle="fto"
-          control-panel="none"
-          experimental-setup-alg="LFDv Fv"
-          experimental-setup-anchor="end"
-          camera-latitude-limit="180"
-          experimental-drag-input="none"
-        ></twisty-player>
-        <button id="download">Download image</button>
-      </section>
-
-      <section class="stack">
-        <h2>Batch generator</h2>
-        <textarea
-          id="batch-alg-input"
-          placeholder="Enter each alg on a separate line"
-        ></textarea>
-        <button id="batch-download" disabled="true">Download images</button>
-      </section>
-
-      <section class="stack">
-        <h2>Settings</h2>
-        <div>
-          <label for="select-mask">Choose stickering:</label>
-          <select name="select-mask" id="select-mask">
-            <option value="full">Full</option>
-            <option value="ls">Last Slot</option>
-            <option value="lc">Last Center</option>
-            <option value="ll">Last Layer</option>
-          </select>
+      <section>
+        <h1>Cube Image Generator</h1>
+        <div class="vstack">
+          <div class="hstack">
+            <!-- TODO: make this functional -->
+            <select id="select-puzzle" class="fullwidth">
+              <!-- <option value="3x3x3">3x3 Cube</option> -->
+              <option value="fto">FTO</option>
+            </select>
+            <select id="select-mask" class="fullwidth">
+              <option value="full">Full</option>
+              <option value="ls">Last Slot</option>
+              <option value="lc">Last Center</option>
+              <option value="ll">Last Layer</option>
+            </select>
+          </div>
+          <input id="alg-input" type="text" placeholder="Enter alg here" />
+          <twisty-player
+            id="main-player"
+            puzzle="fto"
+            control-panel="none"
+            experimental-setup-alg="LFDv Fv"
+            experimental-setup-anchor="end"
+            camera-latitude-limit="180"
+          ></twisty-player>
         </div>
-        <div>
+        <p>Adjust camera by dragging on the cube</p>
+        <button id="download" class="fullwidth">Download image</button>
+      </section>
+
+      <section>
+        <h2>Camera options</h2>
+        <div class="vstack">
+          <div class="hstack">
+            <div style="width: 33%">
+              <label for="camera-latitude">Latitude</label>
+              <input id="camera-latitude" type="number" min="-90" max="90" />
+            </div>
+            <div style="width: 33%">
+              <label for="camera-longitude">Longitude</label>
+              <input id="camera-longitude" type="number" />
+            </div>
+            <div style="width: 33%">
+              <label for="camera-distance">Distance</label>
+              <input
+                id="camera-distance"
+                type="number"
+                min="3"
+                max="8"
+                step="0.1"
+              />
+            </div>
+          </div>
+          <!-- TODO: decide whether to keep this checkbox -->
+          <!-- <div>
           <input
             type="checkbox"
-            name="enable-camera-move"
-            id="enable-camera-move"
+            id="lock-camera"
           />
-          <label for="enable-camera-move"
-            >Drag cube to adjust camera angle</label
+          <label for="lock-camera"
+            >Lock camera angle</label
           >
+        </div> -->
+          <button id="reset-camera">Reset camera angle</button>
         </div>
-        <button id="reset-camera">Reset camera angle</button>
-        <p>🚧Work in progress, need to add more stickerings</p>
       </section>
+
+      <section>
+        <h2>Alg options</h2>
+
+        <label for="setup-alg-input" style="display: block">Setup alg</label>
+        <input
+          id="setup-alg-input"
+          type="text"
+          placeholder="Enter setup alg here"
+        />
+        <fieldset>
+          <input id="anchor-start" type="radio" name="anchor" value="start" />
+          <label for="anchor-start">Start solved</label>
+          <input id="anchor-end" type="radio" name="anchor" value="end" />
+          <label for="anchor-end">End solved</label>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>Batch generator</h2>
+        <p>Generate many images at once, with the same settings as above</p>
+        <div class="vstack">
+          <textarea
+            id="batch-alg-input"
+            placeholder="Enter each alg on a separate line"
+          ></textarea>
+          <button id="batch-download" disabled="true">Download images</button>
+        </div>
+      </section>
+
       <hr class="divider" />
       <p class="credits">Made by err0rcuber. Powered by cubing.js</p>
     </div>
