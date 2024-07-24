@@ -15,6 +15,9 @@ const MASKS = {
 
 type MaskOption = keyof typeof MASKS;
 
+// for 3x3 this would be something like x2 to get yellow on top
+const FTO_PERMANENT_SETUP = "LFDv Fv";
+
 class App {
   // model
   mainPlayer: TwistyPlayer = document.querySelector("#main-player")!;
@@ -34,9 +37,6 @@ class App {
   batchDownloadButton = document.querySelector(
     "#batch-download"
   ) as HTMLButtonElement;
-  // lockCameraCheckbox = document.querySelector(
-  //   "#lock-camera"
-  // ) as HTMLInputElement;
   maskSelect = document.querySelector("#select-mask") as HTMLSelectElement;
   latitudeInput = document.querySelector(
     "#camera-latitude"
@@ -47,11 +47,19 @@ class App {
   distanceInput = document.querySelector(
     "#camera-distance"
   ) as HTMLInputElement;
+  setupAlgInput = document.querySelector(
+    "#setup-alg-input"
+  ) as HTMLInputElement;
+
+  anchorStartRadio = document.querySelector(
+    "#anchor-start"
+  ) as HTMLInputElement;
+  anchorEndRadio = document.querySelector("#anchor-end") as HTMLInputElement;
 
   constructor() {
     this.batchPlayer = new TwistyPlayer({
       puzzle: "fto",
-      experimentalSetupAlg: "LFDv Fv",
+      experimentalSetupAlg: FTO_PERMANENT_SETUP,
       experimentalSetupAnchor: "end",
       cameraLatitudeLimit: 180,
     });
@@ -62,11 +70,6 @@ class App {
     this.batchDownloadButton.addEventListener("click", () =>
       this.batchDownload()
     );
-
-    // this.lockCameraCheckbox.addEventListener("change", (e) => {
-    //   this.lockCamera((e.target as HTMLInputElement).checked);
-    // });
-
     this.resetCameraButton.addEventListener("click", () => {
       this.resetCameraAngle();
     });
@@ -92,6 +95,15 @@ class App {
     this.distanceInput.addEventListener("input", (e) => {
       this.handleDistanceInput(Number((e.target as HTMLInputElement).value));
     });
+    this.setupAlgInput.addEventListener("input", (e) => {
+      this.handleSetupAlgInput((e.target as HTMLInputElement).value);
+    });
+    this.anchorStartRadio.addEventListener("click", () => {
+      this.setSetupAnchor("start");
+    });
+    this.anchorEndRadio.addEventListener("click", () => {
+      this.setSetupAnchor("end");
+    });
 
     // subscribe to the mainPlayer model
     const twistyModel = this.mainPlayer.experimentalModel;
@@ -102,6 +114,10 @@ class App {
         this.distanceInput.value = distance.toFixed(1);
       }
     );
+    twistyModel.setupAnchor.addFreshListener((anchor) => {
+      this.anchorStartRadio.checked = anchor === "start";
+      this.anchorEndRadio.checked = anchor === "end";
+    });
   }
 
   // unfortunate hack: prevents button from being triggered
@@ -168,7 +184,7 @@ class App {
     }
   }
 
-  async handleLatitudeInput(latitude: number) {
+  handleLatitudeInput(latitude: number) {
     this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
       {
         latitude,
@@ -176,7 +192,7 @@ class App {
     );
   }
 
-  async handleLongitudeInput(longitude: number) {
+  handleLongitudeInput(longitude: number) {
     this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
       {
         longitude,
@@ -184,10 +200,18 @@ class App {
     );
   }
 
-  async handleDistanceInput(distance: number) {
+  handleDistanceInput(distance: number) {
     this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
       { distance }
     );
+  }
+
+  handleSetupAlgInput(setup: string) {
+    this.mainPlayer.experimentalSetupAlg = `${FTO_PERMANENT_SETUP} ${setup}`;
+  }
+
+  setSetupAnchor(anchor: "start" | "end") {
+    this.mainPlayer.experimentalSetupAnchor = anchor;
   }
 
   handleMaskSelect(option: MaskOption) {

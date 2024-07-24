@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cube Image Generator</title>
+    <title>FTO Image Generator</title>
     <link rel="stylesheet" href="./index.css" />
     <script src="./main.js" type="module"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,7 +17,7 @@
   <body>
     <div class="container">
       <section>
-        <h1>Cube Image Generator</h1>
+        <h1>FTO Image Generator (CIF)</h1>
         <div class="vstack">
           <div class="hstack">
             <!-- TODO: make this functional -->
@@ -49,16 +49,16 @@
       <section>
         <h2>Camera options</h2>
         <div class="vstack">
-          <div class="hstack">
-            <div style="width: 33%">
+          <div class="hstack" style="display: flex">
+            <div class="input-label-group">
               <label for="camera-latitude">Latitude</label>
               <input id="camera-latitude" type="number" min="-90" max="90" />
             </div>
-            <div style="width: 33%">
+            <div class="input-label-group">
               <label for="camera-longitude">Longitude</label>
               <input id="camera-longitude" type="number" />
             </div>
-            <div style="width: 33%">
+            <div class="input-label-group">
               <label for="camera-distance">Distance</label>
               <input
                 id="camera-distance"
@@ -69,35 +69,42 @@
               />
             </div>
           </div>
-          <!-- TODO: decide whether to keep this checkbox -->
-          <!-- <div>
-          <input
-            type="checkbox"
-            id="lock-camera"
-          />
-          <label for="lock-camera"
-            >Lock camera angle</label
-          >
-        </div> -->
           <button id="reset-camera">Reset camera angle</button>
         </div>
       </section>
 
       <section>
         <h2>Alg options</h2>
-
-        <label for="setup-alg-input" style="display: block">Setup alg</label>
-        <input
-          id="setup-alg-input"
-          type="text"
-          placeholder="Enter setup alg here"
-        />
-        <fieldset>
-          <input id="anchor-start" type="radio" name="anchor" value="start" />
-          <label for="anchor-start">Start solved</label>
-          <input id="anchor-end" type="radio" name="anchor" value="end" />
-          <label for="anchor-end">End solved</label>
-        </fieldset>
+        <div class="vstack">
+          <fieldset id="anchor-input">
+            <div>
+              <input
+                id="anchor-start"
+                type="radio"
+                name="anchor"
+                value="start"
+              />
+              <label for="anchor-start"
+                >Start solved: do the alg on a solved cube</label
+              >
+            </div>
+            <div>
+              <input id="anchor-end" type="radio" name="anchor" value="end" />
+              <label for="anchor-end">End solved: used for alg images</label>
+            </div>
+          </fieldset>
+          <div class="input-label-group">
+            <label for="setup-alg-input" style="display: block"
+              >Setup moves: set up the solved state</label
+            >
+            <input
+              id="setup-alg-input"
+              class="fullwidth"
+              type="text"
+              placeholder="Enter setup moves here"
+            />
+          </div>
+        </div>
       </section>
 
       <section>

@@ -130,6 +130,24 @@ input[type="checkbox"] {
   border: 2px solid var(--blue);
 }
 
+#anchor-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: none;
+}
+
 .credits {
   color: var(--light-grey);
+}
+
+.input-label-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.input-label-group input {
+  width: 100%;
 }
