@@ -1,7 +1,8 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
 import { FULL, LAST_CENTER, LAST_LAYER, LAST_SLOT } from "./masks";
-import { downloadScreenshot, isAlgValid } from "./utils";
+import { downloadURL, isAlgValid, replaceBadApostrophes, sleep } from "./utils";
+import { downloadZip } from "client-zip";
 
 // TODO: put options in URL to make bookmarking possible
 // TODO: very simple editor that shows numbers all over the cube and you enter indices of pieces to show/hide
@@ -51,10 +52,7 @@ class App {
     "#setup-alg-input"
   ) as HTMLInputElement;
 
-  anchorStartRadio = document.querySelector(
-    "#anchor-start"
-  ) as HTMLInputElement;
-  anchorEndRadio = document.querySelector("#anchor-end") as HTMLInputElement;
+  #batchLoading = false;
 
   constructor() {
     this.batchPlayer = new TwistyPlayer({
@@ -98,12 +96,6 @@ class App {
     this.setupAlgInput.addEventListener("input", (e) => {
       this.handleSetupAlgInput((e.target as HTMLInputElement).value);
     });
-    this.anchorStartRadio.addEventListener("click", () => {
-      this.setSetupAnchor("start");
-    });
-    this.anchorEndRadio.addEventListener("click", () => {
-      this.setSetupAnchor("end");
-    });
 
     // subscribe to the mainPlayer model
     const twistyModel = this.mainPlayer.experimentalModel;
@@ -114,10 +106,6 @@ class App {
         this.distanceInput.value = distance.toFixed(1);
       }
     );
-    twistyModel.setupAnchor.addFreshListener((anchor) => {
-      this.anchorStartRadio.checked = anchor === "start";
-      this.anchorEndRadio.checked = anchor === "end";
-    });
   }
 
   // unfortunate hack: prevents button from being triggered
@@ -131,29 +119,71 @@ class App {
   }
 
   async download() {
+    const dataURL = await this.mainPlayer.experimentalScreenshot({
+      width: 256,
+      height: 256,
+    });
     const filename =
       (
         await this.mainPlayer.experimentalModel.puzzleAlg.get()
       ).alg.toString() || "image";
-    downloadScreenshot(this.mainPlayer, filename);
+
+    downloadURL(dataURL, filename);
   }
 
   async batchDownload() {
-    // copy the camera angle of the main player
-    const coords =
-      await this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinates.get();
+    this.batchLoading = true;
+
+    // Ugly hack to make the UI update with loading state first, before blocking main thread
+    await sleep(1);
+
+    const mainModel = this.mainPlayer.experimentalModel;
+    const batchModel = this.batchPlayer.experimentalModel;
+    // copy the options of the main player that we use
+    const coords = await mainModel.twistySceneModel.orbitCoordinates.get();
     this.batchPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
       coords
     );
+
+    const setupAlg = (await mainModel.setupAlg.get()).alg;
+    batchModel.setupAlg.set(setupAlg);
+
+    const algImageURLs: string[] = [];
     for (let i = 0; i < this.batchAlgs.length; ++i) {
       this.batchPlayer.alg = this.batchAlgs[i];
-      await downloadScreenshot(this.batchPlayer, `${i + 1}`);
+      const dataURL = await this.batchPlayer.experimentalScreenshot({
+        width: 256,
+        height: 256,
+      });
+      algImageURLs.push(dataURL);
     }
+
+    const files = await Promise.all(
+      algImageURLs.map(async (dataURL, index) => {
+        const blob = await (await fetch(dataURL)).blob();
+        const alg = this.batchAlgs[index];
+        return {
+          name: `${index + 1} ${alg}.png`,
+          input: blob,
+        };
+      })
+    );
+
+    const zipBlob = await downloadZip(files).blob();
+    await downloadURL(URL.createObjectURL(zipBlob), "batch.zip");
+
+    this.batchLoading = false;
   }
 
-  // lockCamera(lock: boolean) {
-  //   this.mainPlayer.experimentalDragInput = lock ? "none" : "auto";
-  // }
+  get batchLoading() {
+    return this.#batchLoading;
+  }
+
+  set batchLoading(loading: boolean) {
+    this.#batchLoading = loading;
+    this.batchAlgInput.disabled = loading;
+    this.batchDownloadButton.disabled = loading;
+  }
 
   resetCameraAngle() {
     // In the future with more masks, the default coordinates may be different
@@ -163,7 +193,7 @@ class App {
   }
 
   async handleMainInput(input: string) {
-    this.mainPlayer.alg = input;
+    this.mainPlayer.alg = replaceBadApostrophes(input);
     const { issues } = await this.mainPlayer.experimentalModel.puzzleAlg.get();
     this.downloadButton.disabled = issues.errors.length > 0;
   }
@@ -171,7 +201,7 @@ class App {
   async handleBatchInput(input: string) {
     const inputAlgs = input
       .split("\n")
-      .map((alg) => alg.trim())
+      .map((alg) => replaceBadApostrophes(alg.trim()))
       .filter((alg) => alg);
 
     const validationResults = await Promise.all(inputAlgs.map(isAlgValid));
@@ -208,10 +238,6 @@ class App {
 
   handleSetupAlgInput(setup: string) {
     this.mainPlayer.experimentalSetupAlg = `${FTO_PERMANENT_SETUP} ${setup}`;
-  }
-
-  setSetupAnchor(anchor: "start" | "end") {
-    this.mainPlayer.experimentalSetupAnchor = anchor;
   }
 
   handleMaskSelect(option: MaskOption) {

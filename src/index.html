@@ -2,6 +2,11 @@
 <html>
   <head>
     <meta charset="utf8" />
+    <meta
+      name="description"
+      content="A tool to generate 3D images of the Face-Turning Octahedron"
+    />
+    <meta name="author" content="err0rcuber" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FTO Image Generator</title>
     <link rel="stylesheet" href="./index.css" />
@@ -17,14 +22,18 @@
   <body>
     <div class="container">
       <section>
-        <h1>FTO Image Generator (CIF)</h1>
+        <h1>FTO Image Generator</h1>
         <div class="vstack">
-          <div class="hstack">
-            <!-- TODO: make this functional -->
+          <!-- TODO: add more puzzle support -->
+          <!-- <div class="hstack">
             <select id="select-puzzle" class="fullwidth">
-              <!-- <option value="3x3x3">3x3 Cube</option> -->
+              <option value="3x3x3">3x3 Cube</option>
               <option value="fto">FTO</option>
             </select>
+            <select id="select-mask" class="fullwidth"></select>
+          </div> -->
+          <div class="input-label-group">
+            <label for="select-mask">Puzzle stickering</label>
             <select id="select-mask" class="fullwidth">
               <option value="full">Full</option>
               <option value="ls">Last Slot</option>
@@ -32,7 +41,10 @@
               <option value="ll">Last Layer</option>
             </select>
           </div>
-          <input id="alg-input" type="text" placeholder="Enter alg here" />
+          <div class="input-label-group">
+            <label for="alg-input">Algorithm</label>
+            <input id="alg-input" type="text" placeholder="Enter alg here" />
+          </div>
           <twisty-player
             id="main-player"
             puzzle="fto"
@@ -47,7 +59,7 @@
       </section>
 
       <section>
-        <h2>Camera options</h2>
+        <h2>Options</h2>
         <div class="vstack">
           <div class="hstack" style="display: flex">
             <div class="input-label-group">
@@ -70,38 +82,12 @@
             </div>
           </div>
           <button id="reset-camera">Reset camera angle</button>
-        </div>
-      </section>
-
-      <section>
-        <h2>Alg options</h2>
-        <div class="vstack">
-          <fieldset id="anchor-input">
-            <div>
-              <input
-                id="anchor-start"
-                type="radio"
-                name="anchor"
-                value="start"
-              />
-              <label for="anchor-start"
-                >Start solved: do the alg on a solved cube</label
-              >
-            </div>
-            <div>
-              <input id="anchor-end" type="radio" name="anchor" value="end" />
-              <label for="anchor-end">End solved: used for alg images</label>
-            </div>
-          </fieldset>
           <div class="input-label-group">
-            <label for="setup-alg-input" style="display: block"
-              >Setup moves: set up the solved state</label
-            >
+            <label for="setup-alg-input">Setup alg</label>
             <input
               id="setup-alg-input"
-              class="fullwidth"
               type="text"
-              placeholder="Enter setup moves here"
+              placeholder="Enter setup alg here"
             />
           </div>
         </div>
@@ -115,10 +101,12 @@
             id="batch-alg-input"
             placeholder="Enter each alg on a separate line"
           ></textarea>
-          <button id="batch-download" disabled="true">Download images</button>
+          <button id="batch-download" disabled="true">
+            Download images (.zip file)
+          </button>
         </div>
       </section>
-
+      <!-- Todo: a notation section? needs to be dynamic if we support more puzzles -->
       <hr class="divider" />
       <p class="credits">Made by err0rcuber. Powered by cubing.js</p>
     </div>

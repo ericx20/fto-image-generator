@@ -10,6 +10,7 @@
     "upgrade-cubing": "npm install --save cubing@latest"
   },
   "dependencies": {
+    "client-zip": "^2.4.5",
     "cubing": "^0.50.1"
   },
   "devDependencies": {
