@@ -14,13 +14,13 @@ export const LAST_SLOT = {
           facelets: ["ignored", "ignored", "ignored", "ignored"],
         },
         {
-          facelets: ["regular", "regular", "regular", "regular"],
+          facelets: ["dim", "dim", "dim", "dim"],
         },
         {
           facelets: ["ignored", "ignored", "ignored", "ignored"],
         },
         {
-          facelets: ["dim", "dim", "dim", "dim"],
+          facelets: ["regular", "regular", "regular", "regular"],
         },
       ],
     },
@@ -33,7 +33,7 @@ export const LAST_SLOT = {
           facelets: ["ignored"],
         },
         {
-          facelets: ["dim"],
+          facelets: ["regular"],
         },
         {
           facelets: ["ignored"],
@@ -76,6 +76,18 @@ export const LAST_SLOT = {
         },
         {
           facelets: ["ignored"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
+        },
+        {
+          facelets: ["dim"],
         },
         {
           facelets: ["dim"],
@@ -85,18 +97,6 @@ export const LAST_SLOT = {
         },
         {
           facelets: ["regular"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["dim"],
         },
       ],
     },
