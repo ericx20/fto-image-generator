@@ -1,7 +1,13 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
 import { FULL, LAST_CENTER, LAST_LAYER, LAST_SLOT } from "./masks";
-import { downloadURL, isAlgValid, replaceBadApostrophes, sleep } from "./utils";
+import {
+  downloadURL,
+  isAlgValid,
+  processRawAlgInput,
+  sleep,
+  maskStringToMask,
+} from "./utils";
 import { downloadZip } from "client-zip";
 
 // TODO: put options in URL to make bookmarking possible
@@ -14,14 +20,19 @@ const MASKS = {
   ll: LAST_LAYER,
 };
 
+const FACES = ["U", "L", "R", "F", "B", "BR", "BL", "D"] as const;
+
 type MaskOption = keyof typeof MASKS;
 
 // for 3x3 this would be something like x2 to get yellow on top
-const FTO_PERMANENT_SETUP = "LFDv Fv";
+const FTO_PERMANENT_SETUP = "LBLv";
 
 class App {
   // model
-  mainPlayer: TwistyPlayer = document.querySelector("#main-player")!;
+  mainPlayer = document.querySelector("#main-player") as TwistyPlayer;
+  customMaskPlayer = document.querySelector(
+    "#custom-mask-player"
+  ) as TwistyPlayer;
   // batchPlayer is never shown in the UI, it exists purely to generate images for batch generator
   batchPlayer: TwistyPlayer;
   batchAlgs: string[] = [];
@@ -51,8 +62,35 @@ class App {
   setupAlgInput = document.querySelector(
     "#setup-alg-input"
   ) as HTMLInputElement;
+  customMaskInputs = {
+    U: document.querySelector("#u-face") as HTMLInputElement,
+    L: document.querySelector("#l-face") as HTMLInputElement,
+    R: document.querySelector("#r-face") as HTMLInputElement,
+    F: document.querySelector("#f-face") as HTMLInputElement,
+    B: document.querySelector("#b-face") as HTMLInputElement,
+    BR: document.querySelector("#br-face") as HTMLInputElement,
+    BL: document.querySelector("#bl-face") as HTMLInputElement,
+    D: document.querySelector("#d-face") as HTMLInputElement,
+  };
+  customMaskSection = document.querySelector(
+    "#custom-mask-section"
+  ) as HTMLElement;
 
   #batchLoading = false;
+  #showCustomMaskEditor = false;
+
+  get showCustomMaskEditor() {
+    return this.#showCustomMaskEditor;
+  }
+
+  set showCustomMaskEditor(value: boolean) {
+    this.#showCustomMaskEditor = value;
+    if (value) {
+      this.customMaskSection.classList.remove("hidden");
+    } else {
+      this.customMaskSection.classList.add("hidden");
+    }
+  }
 
   constructor() {
     this.batchPlayer = new TwistyPlayer({
@@ -96,6 +134,25 @@ class App {
     this.setupAlgInput.addEventListener("input", (e) => {
       this.handleSetupAlgInput((e.target as HTMLInputElement).value);
     });
+
+    FACES.forEach((face) => {
+      this.customMaskInputs[face].addEventListener("input", (e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/[^-dio]/g, "");
+        this.updateCustomMask();
+        this.setCustomMaskInUrl();
+      });
+    });
+
+    this.loadCustomMaskFromURL();
+
+    addEventListener("popstate", (event) => {
+      this.loadCustomMaskFromURL();
+    });
+
+    // this.customMaskInput.addEventListener("input", (e) => {
+    //   this.handleCustomMaskInput((e.target as HTMLInputElement).value);
+    // })
 
     // subscribe to the mainPlayer model
     const twistyModel = this.mainPlayer.experimentalModel;
@@ -185,6 +242,12 @@ class App {
     this.batchDownloadButton.disabled = loading;
   }
 
+  setMask(mask: any) {
+    this.mainPlayer.experimentalStickeringMaskOrbits = mask;
+    this.batchPlayer.experimentalStickeringMaskOrbits = mask;
+    this.customMaskPlayer.experimentalStickeringMaskOrbits = mask;
+  }
+
   resetCameraAngle() {
     // In the future with more masks, the default coordinates may be different
     this.mainPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
@@ -193,7 +256,7 @@ class App {
   }
 
   async handleMainInput(input: string) {
-    this.mainPlayer.alg = replaceBadApostrophes(input);
+    this.mainPlayer.alg = processRawAlgInput(input);
     const { issues } = await this.mainPlayer.experimentalModel.puzzleAlg.get();
     this.downloadButton.disabled = issues.errors.length > 0;
   }
@@ -201,7 +264,7 @@ class App {
   async handleBatchInput(input: string) {
     const inputAlgs = input
       .split("\n")
-      .map((alg) => replaceBadApostrophes(alg.trim()))
+      .map((alg) => processRawAlgInput(alg.trim()))
       .filter((alg) => alg);
 
     const validationResults = await Promise.all(inputAlgs.map(isAlgValid));
@@ -240,15 +303,63 @@ class App {
     this.mainPlayer.experimentalSetupAlg = `${FTO_PERMANENT_SETUP} ${setup}`;
   }
 
-  handleMaskSelect(option: MaskOption) {
-    // TODO: depending on the mask maybe we should change the default camera angle as well
-    const mask = MASKS[option] as any;
-    if (!mask) {
+  updateCustomMask() {
+    let maskString = "";
+    FACES.forEach((face) => {
+      maskString += this.customMaskInputs[face].value.padEnd(9, "-");
+    });
+    const mask = maskStringToMask(maskString);
+    this.setMask(mask);
+  }
+
+  setCustomMaskInUrl() {
+    const inputState = FACES.map(
+      (face) => this.customMaskInputs[face].value
+    ).join(",");
+    const url = new URL(window.location.href);
+    url.searchParams.set("customStickering", inputState);
+    history.replaceState(null, "", url);
+  }
+
+  loadCustomMaskFromURL() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const inputState = queryParams.get("customStickering");
+    if (!inputState) {
+      return;
+    }
+    this.maskSelect.value = "custom";
+    this.showCustomMaskEditor = true;
+    const inputFieldValues = inputState
+      .split(",")
+      .slice(0, 8)
+      .map((val) => val.replace(/[^-dio]/g, "").slice(0, 9));
+    FACES.forEach(
+      (face, index) =>
+        (this.customMaskInputs[face].value = inputFieldValues[index])
+    );
+    this.updateCustomMask();
+  }
+
+  clearCustomMaskFromURL() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("customStickering");
+    window.history.pushState(null, "", url);
+  }
+
+  handleMaskSelect(option: MaskOption | "custom") {
+    if (option === "custom") {
+      this.showCustomMaskEditor = true;
+      this.updateCustomMask();
+      return;
+    }
+    this.showCustomMaskEditor = false;
+    this.clearCustomMaskFromURL();
+    let selectedMask = MASKS[option] as any;
+    if (!selectedMask) {
       console.warn("Could not find mask corresponding to option", option);
       return;
     }
-    this.mainPlayer.experimentalStickeringMaskOrbits = mask;
-    this.batchPlayer.experimentalStickeringMaskOrbits = mask;
+    this.setMask(selectedMask);
   }
 }
 

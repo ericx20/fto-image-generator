@@ -160,3 +160,17 @@ input[type="checkbox"] {
 .input-label-group input {
   width: 100%;
 }
+
+.mask-input-container input {
+  width: 100%;
+}
+
+#custom-mask-player {
+  border-radius: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}

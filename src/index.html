@@ -24,14 +24,6 @@
       <section>
         <h1>FTO Image Generator</h1>
         <div class="vstack">
-          <!-- TODO: add more puzzle support -->
-          <!-- <div class="hstack">
-            <select id="select-puzzle" class="fullwidth">
-              <option value="3x3x3">3x3 Cube</option>
-              <option value="fto">FTO</option>
-            </select>
-            <select id="select-mask" class="fullwidth"></select>
-          </div> -->
           <div class="input-label-group">
             <label for="select-mask">Puzzle stickering</label>
             <select id="select-mask" class="fullwidth">
@@ -39,8 +31,84 @@
               <option value="ls">Last Slot</option>
               <option value="lc">Last Center</option>
               <option value="ll">Last Layer</option>
+              <option value="custom">Custom</option>
             </select>
           </div>
+          <section id="custom-mask-section" class="vstack hidden">
+            <div>
+              <p>For each face, enter 9 of the following characters:</p>
+              <ul>
+                <li>- (normal)</li>
+                <li>d (dim)</li>
+                <li>i (ignored)</li>
+                <li>o (oriented)</li>
+              </ul>
+              <p>Custom stickering preview:</p>
+              <twisty-player
+                puzzle="fto"
+                id="custom-mask-player"
+                experimental-setup-alg="LBLv"
+                control-panel="none"
+                back-view="side-by-side"
+                experimental-drag-input="none"
+                camera-latitude="35"
+              ></twisty-player>
+            </div>
+            <div class="hstack mask-input-container">
+              <div class="vstack">
+                <input
+                  id="u-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="U face stickering"
+                />
+                <input
+                  id="l-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="L face stickering"
+                />
+                <input
+                  id="r-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="R face stickering"
+                />
+                <input
+                  id="f-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="F face stickering"
+                />
+              </div>
+              <div class="vstack">
+                <input
+                  id="b-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="B face stickering"
+                />
+                <input
+                  id="br-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="BR face stickering"
+                />
+                <input
+                  id="bl-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="BL face stickering"
+                />
+                <input
+                  id="d-face"
+                  type="text"
+                  maxlength="9"
+                  placeholder="D face stickering"
+                />
+              </div>
+            </div>
+          </section>
           <div class="input-label-group">
             <label for="alg-input">Algorithm</label>
             <input id="alg-input" type="text" placeholder="Enter alg here" />
@@ -49,12 +117,12 @@
             id="main-player"
             puzzle="fto"
             control-panel="none"
-            experimental-setup-alg="LFDv Fv"
+            experimental-setup-alg="LBLv"
             experimental-setup-anchor="end"
             camera-latitude-limit="180"
           ></twisty-player>
         </div>
-        <p>Adjust camera by dragging on the cube</p>
+        <p>Adjust camera by dragging on the cube.</p>
         <button id="download" class="fullwidth">Download image</button>
       </section>
 
@@ -95,7 +163,7 @@
 
       <section>
         <h2>Batch generator</h2>
-        <p>Generate many images at once, with the same settings as above</p>
+        <p>Generate many images at once, with the same settings as above.</p>
         <div class="vstack">
           <textarea
             id="batch-alg-input"
@@ -106,7 +174,47 @@
           </button>
         </div>
       </section>
-      <!-- Todo: a notation section? needs to be dynamic if we support more puzzles -->
+
+      <section>
+        <h2>Notation</h2>
+        <p>
+          This tool uses
+          <a
+            href="https://twizzle.net"
+            rel="noopener noreferrer"
+            target="_blank"
+            >Twizzle's</a
+          >
+          FTO notation.
+        </p>
+        <p><strong>Face turns:</strong> U, L, R, F, B, BL, BR, D</p>
+        <p><strong>Wide moves:</strong> u, l, r, f, b, bl, br, d</p>
+        <p><strong>Slice moves:</strong> 2U, 2L, 2R, 2F, 2B, 2BL, 2BR, 2D</p>
+        <p><strong>Face rotations:</strong> Uv, Lv, Rv, Fv, Bv, BLv, BRv, Dv</p>
+        <p>
+          <strong>Edge rotations:</strong> specify two faces that meet at the
+          same edge. The puzzle will rotate along that edge.
+        </p>
+        <ul>
+          <li>For example: URv, DFv, LBLv</li>
+        </ul>
+        <p>
+          <strong>Corner rotations:</strong> specify three faces that meet at
+          the same corner. The puzzle will rotate along that corner.
+        </p>
+        <ul>
+          <li>For example: URDv, LFDv</li>
+        </ul>
+        <p>
+          <strong>Invert:</strong> can apply to moves, rotations and groups of
+          moves.
+        </p>
+        <ul>
+          <li>For example: U', Rv', (R' L R L')'</li>
+        </ul>
+        <p>If the notation is invalid, the download button will turn grey.</p>
+      </section>
+
       <hr class="divider" />
       <p class="credits">Made by err0rcuber. Powered by cubing.js</p>
     </div>
