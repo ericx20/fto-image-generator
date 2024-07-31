@@ -137,7 +137,13 @@
           ></twisty-player>
         </div>
         <p>Adjust camera by dragging on the cube.</p>
-        <button id="download" class="fullwidth">Download image</button>
+        <div>
+          <button id="download" class="fullwidth">Download image</button>
+          <p>
+            Note: image shows inverse of alg. Use the Setup Moves box to do the
+            moves on a solved puzzle.
+          </p>
+        </div>
       </section>
 
       <section>
@@ -165,11 +171,11 @@
           </div>
           <button id="reset-camera">Reset camera angle</button>
           <div class="input-label-group">
-            <label for="setup-alg-input">Setup alg</label>
+            <label for="setup-alg-input">Setup moves</label>
             <input
               id="setup-alg-input"
               type="text"
-              placeholder="Enter setup alg here"
+              placeholder="Enter setup moves here"
             />
           </div>
           <div class="checkbox-label-group">
@@ -232,8 +238,13 @@
         </ul>
         <p><strong>Tips & Tricks</strong></p>
         <ul>
-          <li>If the notation is invalid, the download button will turn grey.</li>
-          <li>Rotations can be used as setup algs to position the cube the right way.</li>
+          <li>
+            If the notation is invalid, the download button will turn grey.
+          </li>
+          <li>
+            Rotations can be used in the Setup Moves box to position the cube
+            the right way.
+          </li>
         </ul>
       </section>
 
