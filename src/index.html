@@ -17,6 +17,10 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
@@ -28,10 +32,20 @@
             <label for="select-mask">Puzzle stickering</label>
             <select id="select-mask" class="fullwidth">
               <option value="full">Full</option>
-              <option value="ls">Last Slot</option>
-              <option value="lc">Last Center</option>
-              <option value="ll">Last Layer</option>
               <option value="custom">Custom</option>
+              <optgroup label="Bencisco">
+                <option value="fc">First Center</option>
+                <option value="f2t">First 2 Triples</option>
+                <option value="sc">Second Center</option>
+                <option value="l2c">Last 2 Centers</option>
+                <option value="lbt">Last Bottom Triple</option>
+                <option value="l3t">Last 3 Triples</option>
+              </optgroup>
+              <optgroup label="Last Slot & Last Layer">
+                <option value="ls">Last Slot</option>
+                <option value="lc">Last Center</option>
+                <option value="ll">Last Layer</option>
+              </optgroup>
             </select>
           </div>
           <section id="custom-mask-section" class="vstack hidden">
@@ -158,6 +172,10 @@
               placeholder="Enter setup alg here"
             />
           </div>
+          <div class="checkbox-label-group">
+            <input type="checkbox" id="hint-facelet-toggle" />
+            <label for="hint-facelet-toggle">Show hint stickers</label>
+          </div>
         </div>
       </section>
 
@@ -212,7 +230,11 @@
         <ul>
           <li>For example: U', Rv', (R' L R L')'</li>
         </ul>
-        <p>If the notation is invalid, the download button will turn grey.</p>
+        <p><strong>Tips & Tricks</strong></p>
+        <ul>
+          <li>If the notation is invalid, the download button will turn grey.</li>
+          <li>Rotations can be used as setup algs to position the cube the right way.</li>
+        </ul>
       </section>
 
       <hr class="divider" />

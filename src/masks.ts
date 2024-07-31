@@ -1,152 +1,33 @@
-export const FULL = "C4RNER:------,CENTERS:------------------------,EDGES:------------";
+import { maskStringToMask } from "./utils";
 
-export const LAST_SLOT = {
-  orbits: {
-    C4RNER: {
-      pieces: [
-        {
-          facelets: ["ignored", "ignored", "ignored", "ignored"],
-        },
-        {
-          facelets: ["dim", "dim", "dim", "dim"],
-        },
-        {
-          facelets: ["ignored", "ignored", "ignored", "ignored"],
-        },
-        {
-          facelets: ["dim", "dim", "dim", "dim"],
-        },
-        {
-          facelets: ["ignored", "ignored", "ignored", "ignored"],
-        },
-        {
-          facelets: ["regular", "regular", "regular", "regular"],
-        },
-      ],
-    },
-    CENTERS: {
-      pieces: [
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["regular"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["ignored"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["dim"],
-        },
-        {
-          facelets: ["regular"],
-        },
-      ],
-    },
-    EDGES: {
-      pieces: [
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["ignored", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["ignored", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["ignored", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-        {
-          facelets: ["dim", "dim"],
-        },
-      ],
-    },
-  },
-};
+export const FULL =
+  "C4RNER:------,CENTERS:------------------------,EDGES:------------";
 
-// export const LAST_CENTER = "C4RNER:IDIDID,CENTERS:D-D--D-D-DDDDD----DDDDDD,EDGES:D-D-D-DDDDDD";
+// Bencisco
+export const FIRST_CENTER = maskStringToMask(
+  "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii-iiiiiiiiiiiiiiiiii-iiiiii-iiii---i---i"
+);
+export const FIRST_TWO_TRIPLES = maskStringToMask(
+  "iiiiiiiiiiiiiiiii-iiiiiiii-iiii--d--iiiiiiiiiiiiiii-d-iiiiid-i-iddd-ddd-"
+);
+export const SECOND_CENTER = maskStringToMask(
+  "ii-iiiiiiiiiiiiiidiiiiiiiidiiiidddddi---i---iii-iiidddii-iiddididddddddd"
+);
+export const LAST_TWO_CENTERS = maskStringToMask(
+  "iidii-i-ii---i---di---i---di-i-dddddidddidddiiidii-dddiidiidd-didddddddd"
+);
+export const LAST_BOTTOM_TRIPLE = maskStringToMask(
+  "iidiididiidddiddddidddiddddididdddddidddiddd-iid--dddd--diidddd-dddddddd"
+);
+export const LAST_THREE_TRIPLES = maskStringToMask(
+  "--d--d-d--ddd-dddd-ddd-dddd-d-dddddd-ddd-dddd--dddddddddd--ddddddddddddd"
+);
 
-export const LAST_CENTER = "C4RNER:IIIIII,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
-// centers dont dim: 7 9 18 15 2 4 17 5 16 = 2 4 5 7 9 15 16 17 18
-
-// edges dont dim: 2 4 6                         
-export const LAST_LAYER = "C4RNER:-I-I-I,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
+// Last Slot & Last Layer
+export const LAST_SLOT = maskStringToMask(
+  "idddidddiiiiiiddddiiiiid-d-iddddddd-iiiiiddddiddddddd-ddddidddddddd--ddd"
+);
+export const LAST_CENTER =
+  "C4RNER:IIIIII,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
+export const LAST_LAYER =
+  "C4RNER:-I-I-I,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";

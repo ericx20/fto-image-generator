@@ -1,6 +1,6 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
-import { FULL, LAST_CENTER, LAST_LAYER, LAST_SLOT } from "./masks";
+import { FIRST_CENTER, FIRST_TWO_TRIPLES, FULL, LAST_BOTTOM_TRIPLE, LAST_CENTER, LAST_LAYER, LAST_SLOT, LAST_THREE_TRIPLES, LAST_TWO_CENTERS, SECOND_CENTER } from "./masks";
 import {
   downloadURL,
   isAlgValid,
@@ -15,6 +15,14 @@ import { downloadZip } from "client-zip";
 
 const MASKS = {
   full: FULL,
+  // Bencisco
+  fc: FIRST_CENTER,
+  f2t: FIRST_TWO_TRIPLES,
+  sc: SECOND_CENTER,
+  l2c: LAST_TWO_CENTERS,
+  lbt: LAST_BOTTOM_TRIPLE,
+  l3t: LAST_THREE_TRIPLES,
+  // Last Slot & Last Layer
   ls: LAST_SLOT,
   lc: LAST_CENTER,
   ll: LAST_LAYER,
@@ -62,6 +70,7 @@ class App {
   setupAlgInput = document.querySelector(
     "#setup-alg-input"
   ) as HTMLInputElement;
+  hintFaceletToggle = document.querySelector("#hint-facelet-toggle") as HTMLInputElement;
   customMaskInputs = {
     U: document.querySelector("#u-face") as HTMLInputElement,
     L: document.querySelector("#l-face") as HTMLInputElement,
@@ -134,6 +143,9 @@ class App {
     this.setupAlgInput.addEventListener("input", (e) => {
       this.handleSetupAlgInput((e.target as HTMLInputElement).value);
     });
+    this.hintFaceletToggle.addEventListener("change", (e) => {
+      this.handleHintFaceletToggle((e.target as HTMLInputElement).checked)
+    })
 
     FACES.forEach((face) => {
       this.customMaskInputs[face].addEventListener("input", (e) => {
@@ -163,6 +175,9 @@ class App {
         this.distanceInput.value = distance.toFixed(1);
       }
     );
+    twistyModel.twistySceneModel.hintFacelet.addFreshListener((style) => {
+      this.hintFaceletToggle.checked = style !== "none"
+    })
   }
 
   // unfortunate hack: prevents button from being triggered
@@ -198,9 +213,11 @@ class App {
     const batchModel = this.batchPlayer.experimentalModel;
     // copy the options of the main player that we use
     const coords = await mainModel.twistySceneModel.orbitCoordinates.get();
-    this.batchPlayer.experimentalModel.twistySceneModel.orbitCoordinatesRequest.set(
+    batchModel.twistySceneModel.orbitCoordinatesRequest.set(
       coords
     );
+    const hintFacelet = await mainModel.twistySceneModel.hintFacelet.get();
+    batchModel.twistySceneModel.hintFacelet.set(hintFacelet);
 
     const setupAlg = (await mainModel.setupAlg.get()).alg;
     batchModel.setupAlg.set(setupAlg);
@@ -301,6 +318,10 @@ class App {
 
   handleSetupAlgInput(setup: string) {
     this.mainPlayer.experimentalSetupAlg = `${FTO_PERMANENT_SETUP} ${setup}`;
+  }
+
+  handleHintFaceletToggle(showHintFacelets: boolean) {
+    this.mainPlayer.experimentalModel.twistySceneModel.hintFacelet.set(showHintFacelets ? "floating" : "none"); 
   }
 
   updateCustomMask() {
