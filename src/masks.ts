@@ -1,33 +1,57 @@
 import { maskStringToMask } from "./utils";
 
-export const FULL =
+const FULL =
   "C4RNER:------,CENTERS:------------------------,EDGES:------------";
 
 // Bencisco
-export const FIRST_CENTER = maskStringToMask(
+const FIRST_CENTER = maskStringToMask(
   "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii-iiiiiiiiiiiiiiiiii-iiiiii-iiii---i---i"
 );
-export const FIRST_TWO_TRIPLES = maskStringToMask(
+const FIRST_TWO_TRIPLES = maskStringToMask(
   "iiiiiiiiiiiiiiiii-iiiiiiii-iiii--d--iiiiiiiiiiiiiii-d-iiiiid-i-iddd-ddd-"
 );
-export const SECOND_CENTER = maskStringToMask(
+const SECOND_CENTER = maskStringToMask(
   "ii-iiiiiiiiiiiiiidiiiiiiiidiiiidddddi---i---iii-iiidddii-iiddididddddddd"
 );
-export const LAST_TWO_CENTERS = maskStringToMask(
+const LAST_TWO_CENTERS = maskStringToMask(
   "iidii-i-ii---i---di---i---di-i-dddddidddidddiiidii-dddiidiidd-didddddddd"
 );
-export const LAST_BOTTOM_TRIPLE = maskStringToMask(
+const LAST_BOTTOM_TRIPLE = maskStringToMask(
   "iidiididiidddiddddidddiddddididdddddidddiddd-iid--dddd--diidddd-dddddddd"
 );
-export const LAST_THREE_TRIPLES = maskStringToMask(
+const LAST_THREE_TRIPLES = maskStringToMask(
   "--d--d-d--ddd-dddd-ddd-dddd-d-dddddd-ddd-dddd--dddddddddd--ddddddddddddd"
 );
 
-// Last Slot & Last Layer
-export const LAST_SLOT = maskStringToMask(
+// Nautilus
+
+const FIRST_BLOCK = maskStringToMask(
+  "iiiiiiiiiiiiii--i-iiiiiiiiiiiii-iiiiiiiiii---iiii-iiii----i-----i--iii--"
+);
+const CENTERS = maskStringToMask(
+  "i---i---iiiiiidd-diiiii-i-ii---d---iiiiii-dddi---d---iddddiddddd-ddii-dd"
+);
+const LAST_TRIPLE = maskStringToMask(
   "idddidddiiiiiiddddiiiiid-d-iddddddd-iiiiiddddiddddddd-ddddidddddddd--ddd"
 );
-export const LAST_CENTER =
+const LAST_SIX_TRIANGLES =
   "C4RNER:IIIIII,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
-export const LAST_LAYER =
+const LAST_LAYER =
   "C4RNER:-I-I-I,CENTERS:I-I--I-I-IIIII----IIIIII,EDGES:I-I-I-IIIIII";
+
+export const MASKS = {
+  full: FULL,
+  // Bencisco
+  fc: FIRST_CENTER,
+  f2t: FIRST_TWO_TRIPLES,
+  sc: SECOND_CENTER,
+  l2c: LAST_TWO_CENTERS,
+  lbt: LAST_BOTTOM_TRIPLE,
+  l3t: LAST_THREE_TRIPLES,
+  // Nautilus
+  fb: FIRST_BLOCK,
+  c: CENTERS,
+  lt: LAST_TRIPLE,
+  l6x: LAST_SIX_TRIANGLES,
+  ll: LAST_LAYER,
+};

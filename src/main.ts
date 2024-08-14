@@ -1,6 +1,5 @@
 import "cubing/twisty"; // needed if any twisty players are on the page
 import { TwistyPlayer } from "cubing/twisty";
-import { FIRST_CENTER, FIRST_TWO_TRIPLES, FULL, LAST_BOTTOM_TRIPLE, LAST_CENTER, LAST_LAYER, LAST_SLOT, LAST_THREE_TRIPLES, LAST_TWO_CENTERS, SECOND_CENTER } from "./masks";
 import {
   downloadURL,
   isAlgValid,
@@ -9,24 +8,7 @@ import {
   maskStringToMask,
 } from "./utils";
 import { downloadZip } from "client-zip";
-
-// TODO: put options in URL to make bookmarking possible
-// TODO: very simple editor that shows numbers all over the cube and you enter indices of pieces to show/hide
-
-const MASKS = {
-  full: FULL,
-  // Bencisco
-  fc: FIRST_CENTER,
-  f2t: FIRST_TWO_TRIPLES,
-  sc: SECOND_CENTER,
-  l2c: LAST_TWO_CENTERS,
-  lbt: LAST_BOTTOM_TRIPLE,
-  l3t: LAST_THREE_TRIPLES,
-  // Last Slot & Last Layer
-  ls: LAST_SLOT,
-  lc: LAST_CENTER,
-  ll: LAST_LAYER,
-};
+import { MASKS } from "./masks";
 
 const FACES = ["U", "L", "R", "F", "B", "BR", "BL", "D"] as const;
 
@@ -70,7 +52,9 @@ class App {
   setupAlgInput = document.querySelector(
     "#setup-alg-input"
   ) as HTMLInputElement;
-  hintFaceletToggle = document.querySelector("#hint-facelet-toggle") as HTMLInputElement;
+  hintFaceletToggle = document.querySelector(
+    "#hint-facelet-toggle"
+  ) as HTMLInputElement;
   customMaskInputs = {
     U: document.querySelector("#u-face") as HTMLInputElement,
     L: document.querySelector("#l-face") as HTMLInputElement,
@@ -84,7 +68,9 @@ class App {
   customMaskSection = document.querySelector(
     "#custom-mask-section"
   ) as HTMLElement;
-
+  clearCustomStickeringButton = document.querySelector(
+    "#clear-custom-stickering"
+  );
   #batchLoading = false;
   #showCustomMaskEditor = false;
 
@@ -144,8 +130,8 @@ class App {
       this.handleSetupAlgInput((e.target as HTMLInputElement).value);
     });
     this.hintFaceletToggle.addEventListener("change", (e) => {
-      this.handleHintFaceletToggle((e.target as HTMLInputElement).checked)
-    })
+      this.handleHintFaceletToggle((e.target as HTMLInputElement).checked);
+    });
 
     FACES.forEach((face) => {
       this.customMaskInputs[face].addEventListener("input", (e) => {
@@ -154,6 +140,10 @@ class App {
         this.updateCustomMask();
         this.setCustomMaskInUrl();
       });
+    });
+
+    this.clearCustomStickeringButton.addEventListener("click", () => {
+      this.clearCustomMask();
     });
 
     this.loadCustomMaskFromURL();
@@ -176,8 +166,8 @@ class App {
       }
     );
     twistyModel.twistySceneModel.hintFacelet.addFreshListener((style) => {
-      this.hintFaceletToggle.checked = style !== "none"
-    })
+      this.hintFaceletToggle.checked = style !== "none";
+    });
   }
 
   // unfortunate hack: prevents button from being triggered
@@ -213,9 +203,7 @@ class App {
     const batchModel = this.batchPlayer.experimentalModel;
     // copy the options of the main player that we use
     const coords = await mainModel.twistySceneModel.orbitCoordinates.get();
-    batchModel.twistySceneModel.orbitCoordinatesRequest.set(
-      coords
-    );
+    batchModel.twistySceneModel.orbitCoordinatesRequest.set(coords);
     const hintFacelet = await mainModel.twistySceneModel.hintFacelet.get();
     batchModel.twistySceneModel.hintFacelet.set(hintFacelet);
 
@@ -321,7 +309,9 @@ class App {
   }
 
   handleHintFaceletToggle(showHintFacelets: boolean) {
-    this.mainPlayer.experimentalModel.twistySceneModel.hintFacelet.set(showHintFacelets ? "floating" : "none"); 
+    this.mainPlayer.experimentalModel.twistySceneModel.hintFacelet.set(
+      showHintFacelets ? "floating" : "none"
+    );
   }
 
   updateCustomMask() {
@@ -331,6 +321,13 @@ class App {
     });
     const mask = maskStringToMask(maskString);
     this.setMask(mask);
+  }
+
+  clearCustomMask() {
+    FACES.forEach((face) => {
+      this.customMaskInputs[face].value = "";
+      this.clearCustomMaskFromURL();
+    });
   }
 
   setCustomMaskInUrl() {
@@ -381,6 +378,14 @@ class App {
       return;
     }
     this.setMask(selectedMask);
+  }
+
+  // for dev only, print the custom stickering
+  grab() {
+    const stickering = new URLSearchParams(window.location.search)
+      .get("customStickering")
+      .replaceAll(",", "");
+    console.log(`maskStringToMask("${stickering}")`);
   }
 }
 

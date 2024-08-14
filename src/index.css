@@ -126,13 +126,22 @@ input[type="checkbox"] {
   width: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
+.items-center {
+  align-items: center;
+}
+
 /* COMPONENTS */
 
 #batch-alg-input {
   height: 8rem;
 }
 
-#reset-camera {
+#reset-camera,
+#clear-custom-stickering {
   width: max-content;
   background-color: white;
   color: var(--blue);
@@ -177,8 +186,4 @@ input[type="checkbox"] {
   border-radius: var(--border-radius);
   width: 100%;
   overflow: hidden;
-}
-
-.hidden {
-  display: none;
 }

@@ -41,9 +41,11 @@
                 <option value="lbt">Last Bottom Triple</option>
                 <option value="l3t">Last 3 Triples</option>
               </optgroup>
-              <optgroup label="Last Slot & Last Layer">
-                <option value="ls">Last Slot</option>
-                <option value="lc">Last Center</option>
+              <optgroup label="Nautilus">
+                <option value="fb">First Block</option>
+                <option value="c">Centers</option>
+                <option value="lt">Last Triple</option>
+                <option value="l6x">Last Six Triangles</option>
                 <option value="ll">Last Layer</option>
               </optgroup>
             </select>
@@ -70,58 +72,83 @@
             </div>
             <div class="hstack mask-input-container">
               <div class="vstack">
-                <input
-                  id="u-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="U face stickering"
-                />
-                <input
-                  id="l-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="L face stickering"
-                />
-                <input
-                  id="r-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="R face stickering"
-                />
-                <input
-                  id="f-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="F face stickering"
-                />
+                <div class="hstack items-center">
+                  <label for="u-face" style="width: 1rem">U:</label>
+                  <input
+                    id="u-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="l-face" style="width: 1rem">L:</label>
+                  <input
+                    id="l-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="r-face" style="width: 1rem">R:</label>
+                  <input
+                    id="r-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="f-face" style="width: 1rem">F:</label>
+                  <input
+                    id="f-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
               </div>
               <div class="vstack">
-                <input
-                  id="b-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="B face stickering"
-                />
-                <input
-                  id="br-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="BR face stickering"
-                />
-                <input
-                  id="bl-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="BL face stickering"
-                />
-                <input
-                  id="d-face"
-                  type="text"
-                  maxlength="9"
-                  placeholder="D face stickering"
-                />
+                <div class="hstack items-center">
+                  <label for="b-face" style="width: 1rem">B:</label>
+                  <input
+                    id="b-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="br-face" style="width: 1rem">BR:</label>
+                  <input
+                    id="br-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="bl-face" style="width: 1rem">BL:</label>
+                  <input
+                    id="bl-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
+                <div class="hstack items-center">
+                  <label for="d-face" style="width: 1rem">D:</label>
+                  <input
+                    id="d-face"
+                    type="text"
+                    maxlength="9"
+                    placeholder="---------"
+                  />
+                </div>
               </div>
             </div>
+            <button id="clear-custom-stickering">Reset stickering</button>
           </section>
           <div class="input-label-group">
             <label for="alg-input">Algorithm</label>
@@ -245,6 +272,7 @@
             Rotations can be used in the Setup Moves box to position the cube
             the right way.
           </li>
+          <li>Bookmark the page to save custom stickerings.</li>
         </ul>
       </section>
 
