@@ -328,6 +328,7 @@ class App {
       this.customMaskInputs[face].value = "";
       this.clearCustomMaskFromURL();
     });
+    this.setMask(MASKS.full);
   }
 
   setCustomMaskInUrl() {
